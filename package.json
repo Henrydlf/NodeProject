@@ -1,0 +1,19 @@
+{
+  "name": "nodeproject",
+  "version": "1.0.0",
+  "description": "THIBAULT DE LA CARTE / BARRAS - TD04 SI FR",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Henrydlf/NodeProject.git"
+  },
+  "author": "@henrydlf @karhyus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Henrydlf/NodeProject/issues"
+  },
+  "homepage": "https://github.com/Henrydlf/NodeProject#readme"
+}
