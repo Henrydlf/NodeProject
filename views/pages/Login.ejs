@@ -8,13 +8,17 @@
     <form name="login">
       <input type="text" name="username" value="">Username<br>
       <input type="password" name="password" value="">Password<br><br>
-      <input type="button" id="submit" value="Submit">
+      <input type="button" value="Submit" id="submit">
     </form>
   </body>
-  <script type="text/javascript">
-    document.getElementById("submit").onclick = function () {
-        alert("Vous etes bien connecter en tant que "+login.username.value);
-        location.href = "/"+login.username.value;
+  <script src="bdd.js" type="module">
+    
+    document.getElementById("submit").onclick = function(){
+      import B from "./bdd.js"
+      console.log("nique ta race");
+      
+      bdd.test();
+      
     };
   </script>
 </html>

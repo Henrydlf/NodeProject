@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Henrydlf/NodeProject#readme",
   "dependencies": {
     "ejs": "^3.0.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongodb": "^3.3.5"
   }
 }

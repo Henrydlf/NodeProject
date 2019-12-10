@@ -1,7 +1,9 @@
 // Import a module
 express = require('express')
 path = require('path')
-app = express() 
+app = express()
+var bdd = require('./bdd');
+
 
 app.use(express.static(path.join(__dirname, 'public')))
 
@@ -9,9 +11,10 @@ app.set('port', 3000)
 app.set('views', __dirname + "/views")
 app.set('view engine', 'ejs');   
 
+
 app.get(
   '/Login', 
-  (req, res) => res.render('pages/Login.ejs')
+  (req, res) => res.render('pages/Login.ejs', {fc : bdd})
 )
 
 app.get(
@@ -29,7 +32,11 @@ app.get(
   (req, res) => res.render('pages/HomePage.ejs')
 )
 
+
+
 app.listen(
   app.get('port'), 
   () => console.log(`server listening on ${app.get('port')}`)
+
+  
 )
