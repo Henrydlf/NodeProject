@@ -15,6 +15,11 @@ app.get(
 )
 
 app.get(
+  '/SignUp', 
+  (req, res) => res.render('pages/SignUp.ejs')
+)
+
+app.get(
   '/:name', 
   (req, res) => res.render('pages/UserPage.ejs', {name: req.params.name})
 )

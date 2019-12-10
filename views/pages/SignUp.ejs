@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <%- include ('../partials/head.ejs') %>
+  </head>
+  <body class="container">
+    <h1>Login</h1>
+    <form name="signup">
+        <input type="text" name="name" value="">Name<br>
+        <input type="text" name="firstname" value="">First name<br>
+        <input type="text" name="mail" value="">Email<br>
+        <input type="text" name="username" value="">Username<br>
+        <input type="password" name="password" value="">Password<br><br>
+        <input type="button" id="submit" value="Submit">
+    </form>
+  </body>
+  <script type="text/javascript">
+    document.getElementById("submit").onclick = function () {
+        alert("Vous vous etes connecter en tant que "+signup.username.value);
+        location.href = "/"+signup.username.value;
+    };
+  </script>
+</html>
