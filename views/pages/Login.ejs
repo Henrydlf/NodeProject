@@ -4,7 +4,17 @@
       <%- include ('../partials/head.ejs') %>
   </head>
   <body class="container">
-    <h1>Hello <%= name %></h1>
-    <p>Welcome to our humble application</p>
+    <h1>Login</h1>
+    <form name="login">
+      <input type="text" name="username" value="">Username<br>
+      <input type="password" name="password" value="">Password<br><br>
+      <input type="button" id="submit" value="Submit">
+    </form>
   </body>
+  <script type="text/javascript">
+    document.getElementById("submit").onclick = function () {
+        alert("Vous etes bien connecter en tant que "+login.username.value);
+        location.href = "/"+login.username.value;
+    };
+  </script>
 </html>
