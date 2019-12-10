@@ -11,8 +11,13 @@ app.set('view engine', 'ejs');
 
 app.get(
     '/:name', 
-    (req, res) => res.render('Login.ejs', {name: req.params.name})
+    (req, res) => res.render('pages/Login.ejs', {name: req.params.name})
   )
+
+app.get(
+  '/', 
+  (req, res) => res.render('pages/HomePage.ejs', {name: req.params.name})
+)
 
 app.listen(
   app.get('port'), 

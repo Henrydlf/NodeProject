@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <%- include ('../partials/head.ejs') %>
+  </head>
+  <body class="container">
+    <h1>Hello World</h1>
+    <p>Welcome to our humble application</p>
+    <button class="btn btn-success" id="login">
+        Login
+    </button>
+    <button class="btn btn-success" id="signup">
+        Sign Up
+    </button>
+  </body>
+  <script type="text/javascript">
+    document.getElementById("login").onclick = function () {
+        location.href = "/Henry";
+    };
+</script>
+</html>
