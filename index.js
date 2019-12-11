@@ -18,7 +18,7 @@ app.get('/Login', urlencodedParser ,function(req, res){
   if(req.query.username != "" && req.query.password!= ""){
     test(req.query.username,req.query.password);
 
-    res.redirect('/');
+
   }
 
 
