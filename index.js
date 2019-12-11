@@ -1,44 +1,18 @@
 // Import a module
-express = require('express')
-path = require('path')
-app = express()
-var bdd = require('./bdd');
-var MongoClient = require("mongodb").MongoClient;
+express = require('express');
+path = require('path');
+app = express();
+test = require('./modules/bdd');
 
-
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('port', 3000) 
 app.set('views', __dirname + "/views")
 app.set('view engine', 'ejs');   
 
-
-app.get(
-  '/login', 
-  function(req,res,next){
-    var str= "";
-    MongoClient.connect('mongodb://localhost',{useUnifiedTopology: true}, (err,client)=>{
-      if(err){
-        console.err(err);
-        return
-      }
-  
-      const db = client.db('bank');
-      const collection = db.collection('customers');
-      
-      console.log("fuck you");
-      collection.find().each(function(err,doc){
-          if(doc!=null){
-              console.log(doc);
-          }
-        
-      })
-  
-  
-      client.close();
-    });
-  }
-)
+app.get('/Login', function(req, res){
+  res.render('pages/Login.ejs');
+});
 
 app.get(
   '/SignUp', 
@@ -55,11 +29,11 @@ app.get(
   (req, res) => res.render('pages/HomePage.ejs')
 )
 
-
-
 app.listen(
   app.get('port'), 
   () => console.log(`server listening on ${app.get('port')}`)
-
-  
 )
+
+function dis(){
+  console.log("a l'attaque");
+}
