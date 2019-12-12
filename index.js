@@ -3,6 +3,9 @@ express = require('express');
 path = require('path');
 app = express();
 test = require('./modules/bdd');
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({extended: false});
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -10,8 +13,16 @@ app.set('port', 3000)
 app.set('views', __dirname + "/views")
 app.set('view engine', 'ejs');   
 
-app.get('/Login', function(req, res){
+app.get('/Login', urlencodedParser ,function(req, res){
   res.render('pages/Login.ejs');
+  if(req.query.username != "" && req.query.password!= ""){
+    test(req.query.username,req.query.password);
+
+
+  }
+
+
+  
 });
 
 app.get(
