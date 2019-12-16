@@ -7,16 +7,25 @@ var bodyParser = require('body-parser');
 
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.set('port', 3000) 
 app.set('views', __dirname + "/views")
-app.set('view engine', 'ejs');   
+app.set('view engine', 'ejs');  
 
 app.get('/Login' ,function(req, res){
-  console.log(req.body.username)
+  res.render('pages/Login.ejs');
+});
+
+app.post('/Login' ,function(req, res){
   bdd(req, res);
+  if(req.body.username != "" && req.body.password!= "")
+  {
+    res.redirect('/')
+  }else{
+    res.redirect('/Login')
+  }
 });
 
 app.get(

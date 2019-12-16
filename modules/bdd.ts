@@ -1,8 +1,7 @@
 var MongoClient = require("mongodb").MongoClient;
 
 var login = function(req, res){
-  res.render('pages/Login.ejs');
-  if(req.query.username != "" && req.query.password!= ""){
+  if(req.body.username != "" && req.body.password!= ""){
     MongoClient.connect('mongodb://localhost',{useUnifiedTopology: true}, (err,client)=>{
       if(err){
         console.err(err);
@@ -14,9 +13,8 @@ var login = function(req, res){
       
       collection.find().each(function(err,doc){
         if(doc!=null){
-            if(doc.prenom == req.query.username && doc.mdp == req.query.password){
+            if(doc.prenom == req.body.username && doc.mdp == req.body.password){
               console.log("Yes!");
-              res.redirect('/');
             }
         } 
       });
