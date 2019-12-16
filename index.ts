@@ -1,28 +1,22 @@
 // Import a module
-express = require('express');
-path = require('path');
-app = express();
-test = require('./modules/bdd');
+var express = require('express');
+var path = require('path');
+var app = express();
+var bdd = require('./modules/bdd.ts');
 var bodyParser = require('body-parser');
-var urlencodedParser = bodyParser.urlencoded({extended: false});
 
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.set('port', 3000) 
 app.set('views', __dirname + "/views")
 app.set('view engine', 'ejs');   
 
-app.get('/Login', urlencodedParser ,function(req, res){
-  res.render('pages/Login.ejs');
-  if(req.query.username != "" && req.query.password!= ""){
-    test(req.query.username,req.query.password);
-
-
-  }
-
-
-  
+app.get('/Login' ,function(req, res){
+  console.log(req.body.username)
+  bdd(req, res);
 });
 
 app.get(
