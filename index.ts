@@ -3,7 +3,7 @@
 var express = require('express');
 var path = require('path');
 var app = express();
-var bdd = require('./modules/bdd.ts');
+var bdd = require('./modules/bdd.js');
 var bodyParser = require('body-parser');
 
 
@@ -38,14 +38,22 @@ app.post('/SignUp', function(req,res){
   bdd.signUp(req,res);
 })
 
+
+
 app.get(
   '/Display',
   function(req,res){
-    var test = bdd.displayDatabase();
-    console.log(test);
-    res.render('pages/Display.ejs',{ database: test});
+    bdd.displayDatabase(function(err,data){
+      if(err) throw err;
+      
+      res.render('pages/Display.ejs', {database: data});
+      console.log("Dans l'index voici le tableau de données : " + data);
+
+    })
   }
 )
+
+
 
 app.get(
   '/:name', 
