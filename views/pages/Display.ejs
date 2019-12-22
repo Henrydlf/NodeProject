@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <%- include ('../partials/head.ejs') %>
+  </head>
+  <body class="container">
+    <h1>DataBase</h1>
+    <ul>
+        <% database.forEach(function(customer){ %>
+            <li><%= customer._id %> - <%= customer.nom %> - <%=customer.prenom %> - <%= customer.mail %></li>
+      <%  }); %>
+      </li>
+    
+  </body>
+
+</html>

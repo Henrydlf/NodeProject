@@ -1,4 +1,5 @@
 // Import a module
+
 var express = require('express');
 var path = require('path');
 var app = express();
@@ -19,8 +20,8 @@ app.get('/Login' ,function(req, res){
 });
 
 app.post('/Login' ,function(req, res){
-  bdd(req, res);
-  if(req.body.username != "" && req.body.password!= "")
+  bdd.login(req,res);
+  if(req.body.mail != "" && req.body.password!= "")
   {
     res.redirect('/')
   }else{
@@ -31,6 +32,19 @@ app.post('/Login' ,function(req, res){
 app.get(
   '/SignUp', 
   (req, res) => res.render('pages/SignUp.ejs')
+)
+
+app.post('/SignUp', function(req,res){
+  bdd.signUp(req,res);
+})
+
+app.get(
+  '/Display',
+  function(req,res){
+    var test = bdd.displayDatabase();
+    console.log(test);
+    res.render('pages/Display.ejs',{ database: test});
+  }
 )
 
 app.get(

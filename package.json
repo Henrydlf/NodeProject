@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/Henrydlf/NodeProject#readme",
   "dependencies": {
+    "@types/jquery": "^3.3.31",
+    "ajax": "0.0.4",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "mangodb": "^1.0.0",

@@ -4,20 +4,22 @@
       <%- include ('../partials/head.ejs') %>
   </head>
   <body class="container">
-    <h1>Login</h1>
+    <h1>Sign Up</h1>
     <form name="signup">
-        <input type="text" name="name" value="">Name<br>
-        <input type="text" name="firstname" value="">First name<br>
-        <input type="text" name="mail" value="">Email<br>
-        <input type="text" name="username" value="">Username<br>
-        <input type="password" name="password" value="">Password<br><br>
-        <input type="button" id="submit2" value="Submit">
+        <label for="name">Name: </label>
+        <input type="text" name="name" id="name" autofocus/>
+        <br/><br/>
+        <label for="firstname">Firstname: </label>
+        <input type="text" name="firstname" id="firstname" />
+        <br/><br/>
+        <label for="mail">E-Mail: </label>
+        <input type="text" name="mail" id="mail"/>
+        <br/><br/>
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password"/>
+        <br/><br/>
+        <input type="button" id="submit2" value="Sign Up">
     </form>
   </body>
-  <script type="text/javascript">
-    document.getElementById("submit2").onclick = function () {
-        alert("Vous vous etes connecter en tant que "+signup.username.value);
-        location.href = "/"+signup.username.value;
-    };
-  </script>
+
 </html>
