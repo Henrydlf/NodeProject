@@ -36,6 +36,11 @@ app.get(
 
 app.post('/SignUp', function(req,res){
   bdd.signUp(req,res);
+  if(req.body.name != "" && req.body.firstname != "" && req.body.mail != "" && req.body.password != ""){
+    res.redirect('/');
+  }else{
+    res.redirect('/SignUp');
+  }
 })
 
 

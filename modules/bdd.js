@@ -37,10 +37,13 @@ var signUp = function(req,res){
       var newCustomer = { nom: req.body.name, prenom: req.body.firstname, mail: req.body.mail, mdp: req.body.password};
       
       collection.find().each(function(err,doc){
-        if(doc.mail == req.body.mail){
-          exist ++;
-          console.log(exist);
+        if(doc!=null){
+          if(doc.mail == req.body.mail){
+            exist ++;
+            console.log(exist);
+          }
         }
+       
       })
 
       if(exist == 0){
