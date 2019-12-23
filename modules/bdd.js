@@ -2,7 +2,7 @@ var MongoClient = require("mongodb").MongoClient;
 var userJson = require('../user.json');
 var fs = require('fs');
 
-var login = function(req, res){
+var login = function(req, res,callback){
   if(req.body.username != "" && req.body.password!= ""){
     MongoClient.connect('mongodb://localhost',{useUnifiedTopology: true}, (err,client)=>{
       if(err) throw err;
@@ -11,24 +11,45 @@ var login = function(req, res){
       const collection = db.collection('customers');
       console.log(req.body.mail,req.body.password);
       
+      
+
+
+      var test= 0;
       collection.find().each(function(err,doc){
         if(err) throw err;
         if(doc!=null){
+            
             if(doc.mail == req.body.mail && doc.mdp == req.body.password){
-              fs.writeFileSync('./user.json', JSON.stringify(doc), function(erreur) {
+              console.log(doc);
+              fs.writeFile('./user.json', JSON.stringify(doc), function(erreur) {
+                
                 if (erreur) {
                     console.log(erreur)}
                 else{
-                  console.log("Yes! "+userJson.prenom);
+                  console.log("Yes! "+ userJson.prenom);
+                  
                 }
               });
+              
+              
             }
+            console.log("pre-if" + userJson.prenom);
+            
         } 
       });
       client.close();
     })
   }
 }
+
+var signOut = function(){
+  fs.writeFile('./user.json', '{"_id":0,"nom":"","prenom":"","mail":"","mdp":"","depense":[]}', function(erreur){
+    if(erreur) throw erreur;
+    console.log("Sign out done");
+  });
+}
+
+
 
 var signUp = function(req,res){
   if(req.body.name != "" && req.body.firstname != "" && req.body.mail != "" && req.body.password != ""){
@@ -109,3 +130,4 @@ var signUp = function(req,res){
 exports.login = login;
 exports.signUp = signUp;
 exports.displayDatabase = displayDatabase;
+exports.signOut = signOut;

@@ -15,19 +15,26 @@ app.set('port', 3000)
 app.set('views', __dirname + "/views")
 app.set('view engine', 'ejs');  
 
+
 app.get('/Login' ,function(req, res){
   res.render('pages/Login.ejs');
 });
 
 app.post('/Login' ,function(req, res){
-  bdd.login(req,res);
-  if(req.body.mail != "" && req.body.password!= "")
-  {
-    res.redirect('/'+userJson.prenom);
-
-  }else{
-    res.redirect('/Login')
-  }
+    
+    if(req.body.mail != "" && req.body.password!= "")
+    {
+      if(bdd.login(req,res)){
+        console.log(userJson.prenom);
+        res.redirect('/'+ userJson.prenom);
+      }else{
+        res.redirect('/Login');
+      }
+    }else{
+      res.redirect('/Login')
+    }
+ 
+ 
 });
 
 app.get(
@@ -58,13 +65,15 @@ app.get(
 
 app.get(
   '/:name', 
-  (req, res) => res.render('pages/UserPage.ejs', {name: req.params.name})
+  (req, res) => res.render('pages/UserPage.ejs', {name: userJson.prenom})
 )
 
 app.get(
   '/', 
-  (req, res) => res.render('pages/HomePage.ejs')
+  (req, res) => {bdd.signOut();res.render('pages/HomePage.ejs');}
 )
+
+
 
 app.listen(
   app.get('port'), 
