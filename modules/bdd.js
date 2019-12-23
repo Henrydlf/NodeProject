@@ -40,20 +40,29 @@ var signUp = function(req,res){
         if(doc!=null){
           if(doc.mail == req.body.mail){
             exist ++;
-            console.log(exist);
           }
         }
-       
+        
       })
+      
+      var i= collection.countDocuments();
 
-      if(exist == 0){
-        collection.insertOne(newCustomer, function(err,res){
-          if(err) throw err;
-          console.log( "New customer added");
-          
-        }); // Blinder si le compte existe déjà
-      }
-      client.close();
+      i.then(() => {
+        if(exist == 0){
+          collection.insertOne(newCustomer, function(err,res){
+            if(err) throw err;
+            console.log( "New customer added");
+            
+          }); // Blinder si le compte existe déjà
+        }else{
+          console.log("This e-mail address is already used");
+        }
+
+        client.close();
+      });
+
+ 
+      
     });
   }
 }
