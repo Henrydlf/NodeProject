@@ -1,6 +1,7 @@
 var MongoClient = require("mongodb").MongoClient;
 var userJson = require('../user.json');
 var fs = require('fs');
+var user= require('./userProfil.ts');
 
 var login = function(req, res,callback){
   if(req.body.username != "" && req.body.password!= ""){
