@@ -1,6 +1,7 @@
 var MongoClient = require("mongodb").MongoClient;
 var userJson = require('../user.json');
 var fs = require('fs');
+var user= require('./userProfil.ts');
 
 var login = function(req, res){
   if(req.body.username != "" && req.body.password!= ""){
@@ -15,6 +16,8 @@ var login = function(req, res){
         if(err) throw err;
         if(doc!=null){
             if(doc.mail == req.body.mail && doc.mdp == req.body.password){
+              user = new userProfil(doc.nom, doc.prenom, doc.mail, doc.mdp, doc.depense);
+              user.display();
               fs.writeFileSync('./user.json', JSON.stringify(doc), function(erreur) {
                 if (erreur) {
                     console.log(erreur)}

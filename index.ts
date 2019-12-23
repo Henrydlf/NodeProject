@@ -4,7 +4,7 @@ var path = require('path');
 var app = express();
 var bdd = require('./modules/bdd.js');
 var bodyParser = require('body-parser');
-var userJson = require('./user.json')
+var userJson = require('./user.json');
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -20,7 +20,7 @@ app.get('/Login' ,function(req, res){
 });
 
 app.post('/Login' ,function(req, res){
-  bdd.login(req,res);
+  bdd.login(req,res,);
   if(req.body.mail != "" && req.body.password!= "")
   {
     res.redirect('/'+userJson.prenom);
