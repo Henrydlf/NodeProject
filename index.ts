@@ -1,10 +1,10 @@
 // Import a module
-
 var express = require('express');
 var path = require('path');
 var app = express();
 var bdd = require('./modules/bdd.js');
 var bodyParser = require('body-parser');
+var userJson = require('./user.json')
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -23,7 +23,8 @@ app.post('/Login' ,function(req, res){
   bdd.login(req,res);
   if(req.body.mail != "" && req.body.password!= "")
   {
-    res.redirect('/')
+    res.redirect('/'+userJson.prenom);
+
   }else{
     res.redirect('/Login')
   }
@@ -43,22 +44,17 @@ app.post('/SignUp', function(req,res){
   }
 })
 
-
-
 app.get(
   '/Display',
   function(req,res){
     bdd.displayDatabase(function(err,data){
       if(err) throw err;
-      
+    
       res.render('pages/Display.ejs', {database: data});
       console.log("Dans l'index voici le tableau de données : " + data);
-
     })
   }
 )
-
-
 
 app.get(
   '/:name', 
