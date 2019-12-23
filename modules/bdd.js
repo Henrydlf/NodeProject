@@ -1,7 +1,6 @@
-
 var MongoClient = require("mongodb").MongoClient;
-
-
+var userJson = require('../user.json');
+var fs = require('fs');
 
 var login = function(req, res){
   if(req.body.username != "" && req.body.password!= ""){
@@ -16,7 +15,13 @@ var login = function(req, res){
         if(err) throw err;
         if(doc!=null){
             if(doc.mail == req.body.mail && doc.mdp == req.body.password){
-              console.log("Yes!");
+              fs.writeFileSync('./user.json', JSON.stringify(doc), function(erreur) {
+                if (erreur) {
+                    console.log(erreur)}
+                else{
+                  console.log("Yes! "+userJson.prenom);
+                }
+              });
             }
         } 
       });
@@ -42,7 +47,6 @@ var signUp = function(req,res){
             exist ++;
           }
         }
-        
       })
       
       var i= collection.countDocuments();
@@ -67,11 +71,8 @@ var signUp = function(req,res){
   }
 }
 
-
-
  function displayDatabase(callback){
   var tab= [];
-
 
   MongoClient.connect('mongodb://localhost',{useUnifiedTopology: true}, (err,client)=>{
     if(err) throw err;
@@ -79,22 +80,17 @@ var signUp = function(req,res){
     const db = client.db('bank');
     const collection = db.collection('customers');
 
-   
     console.log("Début du display");
  
     collection.find().each(function(err,doc){
       if(err) throw err;
       if(doc!=null){
-        tab.push(doc);
-
-        
+        tab.push(doc);  
       }
-      
     })
     
     var i = collection.countDocuments();
     
-
     i.then(() => {
       console.log(i);
       callback(err,tab);              
@@ -102,25 +98,13 @@ var signUp = function(req,res){
 
     console.log(tab);
    
-    
-
     // if(tab.length  ){
     //   callback(err,tab);
     // }
 
-    client.close();     
-    
-
-    
+    client.close(); 
   });
-
- 
-  
 }
-
-
-
-
 
 exports.login = login;
 exports.signUp = signUp;
