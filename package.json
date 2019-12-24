@@ -27,6 +27,7 @@
     "jsdom": "^15.2.1",
     "mangodb": "^1.0.0",
     "mongodb": "^3.3.5",
+    "ts-node": "^8.5.4",
     "typescript": "^3.7.4"
   }
 }

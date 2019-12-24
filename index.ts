@@ -5,6 +5,7 @@ var app = express();
 var bdd = require('./modules/bdd.js');
 var bodyParser = require('body-parser');
 var userJson = require('./user.json');
+var fs = require('fs');
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -24,12 +25,14 @@ app.post('/Login' ,function(req, res){
     
     if(req.body.mail != "" && req.body.password!= "")
     {
-      if(bdd.login(req,res)){
-        console.log(userJson.prenom);
-        res.redirect('/'+ userJson.prenom);
-      }else{
-        res.redirect('/Login');
-      }
+        bdd.login(req,res,function(){
+          var data = fs.readFileSync('./user.json');
+          var content = JSON.parse(data);
+          console.log("3.Dans l'index: " + content.prenom);
+          res.redirect('/'+ content.prenom);
+        });
+        
+      
     }else{
       res.redirect('/Login')
     }
@@ -65,7 +68,7 @@ app.get(
 
 app.get(
   '/:name', 
-  (req, res) => res.render('pages/UserPage.ejs', {name: userJson.prenom})
+  (req, res) => res.render('pages/UserPage.ejs', {name: req.params.name})
 )
 
 app.get(

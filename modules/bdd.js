@@ -1,7 +1,9 @@
 var MongoClient = require("mongodb").MongoClient;
 var userJson = require('../user.json');
 var fs = require('fs');
-var user= require('./userProfil.ts');
+//var User= require('./UserProfil.ts');
+
+
 
 var login = function(req, res,callback){
   if(req.body.username != "" && req.body.password!= ""){
@@ -10,34 +12,44 @@ var login = function(req, res,callback){
 
       const db = client.db('bank');
       const collection = db.collection('customers');
-      console.log(req.body.mail,req.body.password);
+      // console.log(req.body.mail,req.body.password);
       
-      
-
-
       var test= 0;
+      
+      var promise = new Promise(function(resolve,reject){
+        resolve('Success!');
+      });
+
       collection.find().each(function(err,doc){
         if(err) throw err;
         if(doc!=null){
             
             if(doc.mail == req.body.mail && doc.mdp == req.body.password){
-              console.log(doc);
-              fs.writeFile('./user.json', JSON.stringify(doc), function(erreur) {
+              // console.log(doc);
+              
+              fs.writeFileSync('./user.json', JSON.stringify(doc), function(erreur) {
                 
                 if (erreur) {
                     console.log(erreur)}
-                else{
-                  console.log("Yes! "+ userJson.prenom);
-                  
-                }
-              });
-              
-              
-            }
-            console.log("pre-if" + userJson.prenom);
-            
+                
+              })
+              // resolve("Success");
+              console.log("2. APPELLE DU CALLBACK");
+              var data = fs.readFileSync('./user.json');
+              var content = JSON.parse(data);
+              console.log("Prenom:" + content.prenom);
+              callback();
+          }
         } 
       });
+      
+    //  var i = collection.countDocuments();
+
+    //   i.then(()=> {
+    //     console.log("2. APPELLE DU CALLBACK");
+    //     callback();
+    //   });
+      
       client.close();
     })
   }
@@ -120,9 +132,7 @@ var signUp = function(req,res){
 
     console.log(tab);
    
-    // if(tab.length  ){
-    //   callback(err,tab);
-    // }
+    
 
     client.close(); 
   });
