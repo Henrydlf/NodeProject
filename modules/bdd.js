@@ -12,20 +12,15 @@ var login = function(req, res,callback){
 
       const db = client.db('bank');
       const collection = db.collection('customers');
-      // console.log(req.body.mail,req.body.password);
       
-      var test= 0;
-      
-      var promise = new Promise(function(resolve,reject){
-        resolve('Success!');
-      });
+    
 
       collection.find().each(function(err,doc){
         if(err) throw err;
         if(doc!=null){
             
             if(doc.mail == req.body.mail && doc.mdp == req.body.password){
-              // console.log(doc);
+    
               
               fs.writeFileSync('./user.json', JSON.stringify(doc), function(erreur) {
                 
@@ -33,24 +28,24 @@ var login = function(req, res,callback){
                     console.log(erreur)}
                 
               })
-              // resolve("Success");
-              console.log("2. APPELLE DU CALLBACK");
+              
               var data = fs.readFileSync('./user.json');
               var content = JSON.parse(data);
               console.log("Prenom:" + content.prenom);
-              callback();
+              
+              callback(0);
+          }else{
+            var i = collection.countDocuments();
+            i.then(() => {
+              callback(1);
+              client.close();
+            })
           }
         } 
       });
       
-    //  var i = collection.countDocuments();
-
-    //   i.then(()=> {
-    //     console.log("2. APPELLE DU CALLBACK");
-    //     callback();
-    //   });
       
-      client.close();
+      
     })
   }
 }
