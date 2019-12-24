@@ -25,16 +25,23 @@ app.post('/Login' ,function(req, res){
     
     if(req.body.mail != "" && req.body.password!= "")
     {
-        bdd.login(req,res,function(){
-          var data = fs.readFileSync('./user.json');
-          var content = JSON.parse(data);
-          console.log("3.Dans l'index: " + content.prenom);
-          res.redirect('/'+ content.prenom);
+        bdd.login(req,res,function(bool){
+          
+            var data = fs.readFileSync('./user.json');
+            var content = JSON.parse(data);
+            console.log("Mail" + content.mail);
+            if(bool == 1){
+              res.redirect('/Login');
+            }else{
+              console.log("3.Dans l'index: " + content.prenom);
+              res.redirect('/'+ content.prenom);
+            }
+                 
         });
         
       
     }else{
-      res.redirect('/Login')
+      res.redirect('/Login');
     }
  
  
