@@ -21,6 +21,7 @@
     "@types/jquery": "^3.3.31",
     "ajax": "0.0.4",
     "ajax-request": "^1.2.3",
+    "chart.js": "^2.9.3",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "jquery": "^3.4.1",

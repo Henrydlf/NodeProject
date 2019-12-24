@@ -6,6 +6,7 @@ var bdd = require('./modules/bdd.js');
 var bodyParser = require('body-parser');
 var userJson = require('./user.json');
 var fs = require('fs');
+var Chart = require('chart.js');
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -26,20 +27,16 @@ app.post('/Login' ,function(req, res){
     if(req.body.mail != "" && req.body.password!= "")
     {
         bdd.login(req,res,function(bool){
-          
-            var data = fs.readFileSync('./user.json');
-            var content = JSON.parse(data);
-            console.log("Mail" + content.mail);
-            if(bool == 1){
-              res.redirect('/Login');
-            }else{
-              console.log("3.Dans l'index: " + content.prenom);
-              res.redirect('/'+ content.prenom);
-            }
-                 
+          var data = fs.readFileSync('./user.json');
+          var content = JSON.parse(data);
+          console.log("Mail" + content.mail);
+          if(bool == 1){
+            res.redirect('/Login');
+          }else{
+            console.log("3.Dans l'index: " + content.prenom);
+            res.redirect('/'+ content.prenom);
+          }      
         });
-        
-      
     }else{
       res.redirect('/Login');
     }
@@ -75,7 +72,12 @@ app.get(
 
 app.get(
   '/:name', 
-  (req, res) => res.render('pages/UserPage.ejs', {name: req.params.name})
+  function(req, res) {
+    var data = fs.readFileSync('./user.json');
+    var content = JSON.parse(data);
+    
+    res.render('pages/UserPage.ejs', {content: content});
+  }
 )
 
 app.get(
