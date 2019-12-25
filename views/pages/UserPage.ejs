@@ -9,19 +9,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <script>
       var labels=[];
-      console.log("<%= content.depense %>");
-      for(var i = 0; i < "<%=content.depense.length%>"; i++){
-        console.log("sals");
-        labels.push("<%=content.depense["+i+"].date %>");
-      }
+      var data=[];
+      "<% content.depense.forEach(element => {%>" 
+      labels.push("<%=element.date%>");
+      data.push("<%=element.montant%>");
+      "<%});%>"
+
       var ctx = document.getElementById('myChart');
       var myChart = new Chart(ctx, {
           type: 'line',
           data: {
               labels: labels,
               datasets: [{
-                  //label: '# of Votes',
-                  data: [12, 19, 3, 5, 2, 3],
+                  label: 'montant des dépenses par années',
+                  data: data,
                   backgroundColor: 'rgba(255, 99, 132, 0.2)',
                   borderColor: 'rgba(255, 99, 132, 1)',
                   borderWidth: 1
@@ -31,7 +32,7 @@
               scales: {
                   yAxes: [{ 
                       ticks: {
-                          beginAtZero: true
+                          beginAtZero: false
                       }
                   }]
               }
