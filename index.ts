@@ -8,6 +8,7 @@ var bdd = require('./modules/bdd.js');
 var bodyParser = require('body-parser');
 var userJson = require('./user.json');
 var fs = require('fs');
+var Chart = require('chart.js');
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,8 +41,6 @@ app.post('/Login' ,function(req, res){
             }
                  
         });
-        
-      
     }else{
       res.redirect('/Login');
     }
@@ -77,7 +76,12 @@ app.get(
 
 app.get(
   '/UserPage/:name', 
-  (req, res) => res.render('pages/UserPage.ejs', {name: req.params.name})
+  function(req, res) {
+    var data = fs.readFileSync('./user.json');
+    var content = JSON.parse(data);
+    
+    res.render('pages/UserPage.ejs', {content: content});
+  }
 )
 
 app.get(

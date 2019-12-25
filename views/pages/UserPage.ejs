@@ -4,8 +4,40 @@
       <%- include ('../partials/head.ejs') %>
   </head>
   <body class="container">
-    <h1>Hello <%= name%></h1>
-
+    <h1>Etat du compte de Monsieur <%= content.prenom%> <%= content.nom%></h1>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script>
+      var labels=[];
+      alert("<%=content.depense.length%>");
+      for(var i = 0; i < "<%=content.depense.length%>"; i++){
+        console.log("sals");
+        labels.push("<%=content.depense[i].date%>");
+      }
+      var ctx = document.getElementById('myChart');
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: labels,
+              datasets: [{
+                  //label: '# of Votes',
+                  data: [12, 19, 3, 5, 2, 3],
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                  borderColor: 'rgba(255, 99, 132, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{ 
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              }
+          }
+      });
+    </script>
     <button class="btn btn-success" id="signout">
       Sign Out
     </button>
