@@ -31,7 +31,6 @@ var login = function(req, res,callback){
               
               var data = fs.readFileSync('./user.json');
               var content = JSON.parse(data);
-              console.log("Prenom:" + content.prenom);
               
               callback(0);
           }else{

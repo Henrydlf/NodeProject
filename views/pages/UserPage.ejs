@@ -9,10 +9,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <script>
       var labels=[];
-      alert("<%=content.depense.length%>");
+      console.log("<%= content.depense %>");
       for(var i = 0; i < "<%=content.depense.length%>"; i++){
         console.log("sals");
-        labels.push("<%=content.depense[i].date%>");
+        labels.push("<%=content.depense["+i+"].date %>");
       }
       var ctx = document.getElementById('myChart');
       var myChart = new Chart(ctx, {
