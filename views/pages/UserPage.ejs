@@ -13,8 +13,6 @@
       "<% content.depense.forEach(element => {%>" 
       data.set(parseInt("<%=element.date%>", 10), "<%=element.montant%>");
       "<%});%>"
-      // Array.from(data.keys()).sort(function(a, b){return a - b});
-      //data.sort(function(a, b){return a - b});
       var dataSort = new Map([...data.entries()].sort());
       var ctx = document.getElementById('myChart');
       var myChart = new Chart(ctx, {
