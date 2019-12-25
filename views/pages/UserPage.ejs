@@ -5,24 +5,25 @@
   </head>
   <body class="container">
     <h1>Etat du compte de Monsieur <%= content.prenom%> <%= content.nom%></h1>
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="myChart" width="400" height="200"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <script>
       var labels=[];
-      var data=[];
+      var data= new Map();
       "<% content.depense.forEach(element => {%>" 
-      labels.push("<%=element.date%>");
-      data.push("<%=element.montant%>");
+      data.set(parseInt("<%=element.date%>", 10), "<%=element.montant%>");
       "<%});%>"
-
+      // Array.from(data.keys()).sort(function(a, b){return a - b});
+      //data.sort(function(a, b){return a - b});
+      var dataSort = new Map([...data.entries()].sort());
       var ctx = document.getElementById('myChart');
       var myChart = new Chart(ctx, {
           type: 'line',
           data: {
-              labels: labels,
+              labels: Array.from(dataSort.keys()),
               datasets: [{
-                  label: 'montant des dépenses par années',
-                  data: data,
+                  label: 'Amount of outcome',
+                  data: Array.from(dataSort.values()),
                   backgroundColor: 'rgba(255, 99, 132, 0.2)',
                   borderColor: 'rgba(255, 99, 132, 1)',
                   borderWidth: 1

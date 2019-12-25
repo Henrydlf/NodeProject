@@ -32,11 +32,9 @@ app.post('/Login' ,function(req, res){
           
             var data = fs.readFileSync('./user.json');
             var content = JSON.parse(data);
-            console.log("Mail" + content.mail);
             if(bool == 1){
               res.redirect('/Login');
             }else{
-              console.log("3.Dans l'index: " + content.prenom);
               res.redirect('/UserPage/'+ content.prenom);
             }
                  
@@ -79,6 +77,7 @@ app.get(
   function(req, res) {
     var data = fs.readFileSync('./user.json');
     var content = JSON.parse(data);
+    console.log(content);
     
     res.render('pages/UserPage.ejs', {content: content});
   }

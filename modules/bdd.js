@@ -31,7 +31,6 @@ var login = function(req, res,callback){
               
               var data = fs.readFileSync('./user.json');
               var content = JSON.parse(data);
-              console.log("Prenom:" + content.prenom);
               
               callback(0);
           }else{
@@ -139,7 +138,7 @@ var addOutcome = function(req,res,callback){
     var data = fs.readFileSync('./user.json');
     var content = JSON.parse(data);
     var query= { mail: content.mail};
-    var update = {$push: {depense: {date: req.body.date, montant: req.body.amount}}};
+    var update = {$push: {depense: {date: parseInt(req.body.date), montant: parseInt(req.body.amount, 10)}}};
     var queryFind = {mail: content.mail};
     
     MongoClient.connect('mongodb://localhost', {useUnifiedTopology: true}, (err,client) => {
