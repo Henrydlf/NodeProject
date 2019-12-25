@@ -133,7 +133,66 @@ var signUp = function(req,res){
   });
 }
 
+
+var addOutcome = function(req,res,callback){
+  if(req.body.date!="" && req.body.amount!=""){
+    var data = fs.readFileSync('./user.json');
+    var content = JSON.parse(data);
+    var query= { mail: content.mail};
+    var update = {$push: {depense: {date: req.body.date, montant: req.body.amount}}};
+    var queryFind = {mail: content.mail};
+    
+    MongoClient.connect('mongodb://localhost', {useUnifiedTopology: true}, (err,client) => {
+      if(err) throw err;
+
+      const db = client.db('bank');
+      const collection = db.collection('customers');
+      
+      var promise = new Promise((resolve, reject)=> {
+          collection.updateOne(query,update,function(err){
+          if(err) reject(err);
+          console.log("doc updated");
+          resolve("Success");
+        })
+      });
+
+      promise.then( () =>{
+        collection.findOne(queryFind,function(err,doc){
+          if(err) reject(err);
+          fs.writeFileSync('./user.json', JSON.stringify(doc), function(err){
+            if(err) throw err;
+          });
+          client.close();
+          // resolve("Success");
+        })
+      });
+
+      promise.then(() =>{
+        callback(err);
+      });
+
+      // collection.updateOne(query,update,function(err){
+      //   if(err) throw err;
+      //   console.log("doc updated");
+      //   return success = "Success"
+      // }).then( (success) =>{
+      //   collection.findOne(queryFind,function(err,doc){
+      //     if(err) throw err;
+      //     fs.writeFileSync('./user.json', JSON.stringify(doc), function(err){
+      //       if(err) throw err;
+      //     });
+      //     collection.close();
+      //     callback(err);
+      //   })
+      // })
+    });
+  }
+
+
+}
+
 exports.login = login;
 exports.signUp = signUp;
 exports.displayDatabase = displayDatabase;
 exports.signOut = signOut;
+exports.addOutcome = addOutcome;

@@ -1,3 +1,5 @@
+// import { readFileSync } from "fs";
+
 // Import a module
 var express = require('express');
 var path = require('path');
@@ -34,7 +36,7 @@ app.post('/Login' ,function(req, res){
               res.redirect('/Login');
             }else{
               console.log("3.Dans l'index: " + content.prenom);
-              res.redirect('/'+ content.prenom);
+              res.redirect('/UserPage/'+ content.prenom);
             }
                  
         });
@@ -74,7 +76,7 @@ app.get(
 )
 
 app.get(
-  '/:name', 
+  '/UserPage/:name', 
   (req, res) => res.render('pages/UserPage.ejs', {name: req.params.name})
 )
 
@@ -83,6 +85,27 @@ app.get(
   (req, res) => {bdd.signOut();res.render('pages/HomePage.ejs');}
 )
 
+app.get(
+  '/AddOutcome',
+  (req,res) => res.render('pages/AddOutcome.ejs')
+)
+
+
+app.post(
+  '/AddOutcome',
+  function(req,res){
+    bdd.addOutcome(req,res,function(err){
+      if(err) throw err;
+      var data = fs.readFileSync('./user.json');
+      var content = JSON.parse(data);
+      res.redirect('/UserPage/' + content.prenom );
+    });
+  }
+)
+
+// app.post('/AddOutcome',function(){
+
+// })
 
 
 app.listen(
