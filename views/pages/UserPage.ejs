@@ -38,12 +38,15 @@
           }
       });
     </script>
-    <button class="btn btn-success" id="signout">
-      Sign Out
-    </button>
+    
 
     <button class="btn btn-success" id="add-outcome">Add an outcome</button>
 
+    <button class="btn btn-success" id="update-outcome">Update an outcome</button>
+
+    <button class="btn btn-success" id="delete-outcome">Delete an outcome</button>
+
+    <button class="btn btn-success" id="signout">Sign Out</button>
   </body>
   <script type="text/javascript">
     document.getElementById("signout").onclick = function () {
@@ -53,6 +56,14 @@
     document.getElementById("add-outcome").onclick = function () {
       location.href = "/AddOutcome";
     };
+
+    document.getElementById("update-outcome").onclick = function(){
+      location.href = "/UpdateOutcome";
+    }
+
+    document.getElementById("delete-outcome").onclick = function(){
+      location.href = "/DeleteOutcome";
+    }
 
 </script>
 </html>

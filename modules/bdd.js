@@ -147,8 +147,74 @@ var addOutcome = function(req,res,callback){
       const db = client.db('bank');
       const collection = db.collection('customers');
       
-      var promise = new Promise((resolve, reject)=> {
+      var promise = new Promise((resolve,reject) => {
+        collection.findOne(queryFind,function(err,doc){
+          if(err) reject(err);
+          
+          for(var i = 0; i<doc.depense.length; i ++ ){
+            if(doc.depense[i].date == parseInt(req.body.date)){
+              console.log("This year's outcome already exist");
+              reject("This year's outcome already exist");
+            }
+          } 
+
+          resolve("success");
+
+        });
+      })
+
+       promise.then(()=> {
           collection.updateOne(query,update,function(err){
+          if(err) reject(err);
+          console.log("doc updated");
+          // resolve("Success");
+        })
+      });
+
+      promise.then( () =>{
+        collection.findOne(queryFind,function(err,doc){
+          if(err) reject(err);
+          fs.writeFileSync('./user.json', JSON.stringify(doc), function(err){
+            if(err) throw err;
+          });  
+          // resolve("Success");
+        })
+      });
+
+      promise.then(() =>{
+        client.close();
+      });
+
+      promise.then(()=>{
+        callback(err,1);
+      });
+
+      promise.catch(() =>{
+        callback(err,0);
+      })
+     
+    });
+  }
+
+
+}
+
+
+var updateOutcome = function(req,res,callback){
+    var data = fs.readFileSync('./user.json');
+    var content = JSON.parse(data);
+    var query= { mail: content.mail, 'depense.date': parseInt(req.body.date)};
+    var update = {"$set": {'depense.$.montant': parseInt(req.body.amount) }};
+    var queryFind = {mail: content.mail};
+    console.log("DATE + AMOUNT: " + req.body.date + " " + req.body.amount)
+    MongoClient.connect('mongodb://localhost', {useUnifiedTopology: true}, (err,client) => {
+      if(err) throw err;
+
+      const db = client.db('bank');
+      const collection = db.collection('customers');
+      
+      var promise = new Promise((resolve,reject) => {
+        collection.updateOne(query,update,function(err){
           if(err) reject(err);
           console.log("doc updated");
           resolve("Success");
@@ -169,25 +235,54 @@ var addOutcome = function(req,res,callback){
       promise.then(() =>{
         callback(err);
       });
+      
 
-      // collection.updateOne(query,update,function(err){
-      //   if(err) throw err;
-      //   console.log("doc updated");
-      //   return success = "Success"
-      // }).then( (success) =>{
-      //   collection.findOne(queryFind,function(err,doc){
-      //     if(err) throw err;
-      //     fs.writeFileSync('./user.json', JSON.stringify(doc), function(err){
-      //       if(err) throw err;
-      //     });
-      //     collection.close();
-      //     callback(err);
-      //   })
-      // })
+     
     });
-  }
 
 
+}
+
+
+var deleteOutcome = function(req,res,callback){
+  var data = fs.readFileSync('./user.json');
+    var content = JSON.parse(data);
+    var query= { mail: content.mail, "depense.date": parseInt(req.body.date)};
+    var update = {$pull: {"depense": {"date": parseInt(req.body.date)} }};
+    var queryFind = {mail: content.mail};
+
+    MongoClient.connect('mongodb://localhost', {useUnifiedTopology: true}, (err,client) => {
+      if(err) throw err;
+
+      const db = client.db('bank');
+      const collection = db.collection('customers');
+      
+      var promise = new Promise((resolve,reject) => {
+        collection.updateOne(query,update,function(err){
+          if(err) reject(err);
+          console.log("doc updated");
+          resolve("Success");
+        })
+      });
+
+      promise.then( () =>{
+        collection.findOne(queryFind,function(err,doc){
+          if(err) reject(err);
+          fs.writeFileSync('./user.json', JSON.stringify(doc), function(err){
+            if(err) throw err;
+          });
+          client.close();
+          // resolve("Success");
+        })
+      });
+
+      promise.then(() =>{
+        callback(err);
+      });
+      
+
+     
+    });
 }
 
 exports.login = login;
@@ -195,3 +290,5 @@ exports.signUp = signUp;
 exports.displayDatabase = displayDatabase;
 exports.signOut = signOut;
 exports.addOutcome = addOutcome;
+exports.updateOutcome = updateOutcome;
+exports.deleteOutcome = deleteOutcome;
