@@ -1,7 +1,6 @@
 MongoClient = require("mongodb").MongoClient;
 
-var test = function(usr,password){
-  var str= "";
+var login = function(usr,password){
   MongoClient.connect('mongodb://localhost',{useUnifiedTopology: true}, (err,client)=>{
     if(err){
       console.err(err);
@@ -14,15 +13,14 @@ var test = function(usr,password){
     
     collection.find().each(function(err,doc){
       if(doc!=null){
-          if(doc.mail == usr && doc.mdp == password){
-            console.log("Yes!");
-          }
+          if(doc.prenom == usr && doc.mdp == password){
+            LoggedIn = true;
+            console.log("LoggedIn: "+LoggedIn);
+          } 
       } 
     })
     client.close();
   });
-  
-
 }
 
-module.exports = test;
+exports.login = login;
