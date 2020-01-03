@@ -6,7 +6,6 @@ var bdd = require('./modules/bdd.js');
 var bodyParser = require('body-parser');
 var userJson = require('./user.json');
 var fs = require('fs');
-var Chart = require('chart.js');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }))

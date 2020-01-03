@@ -1,9 +1,5 @@
 var MongoClient = require("mongodb").MongoClient;
-var userJson = require('../user.json');
 var fs = require('fs');
-//var User= require('./UserProfil.ts');
-
-
 
 var login = function(req, res,callback){
   if(req.body.username != "" && req.body.password!= ""){
@@ -42,9 +38,6 @@ var login = function(req, res,callback){
           }
         } 
       });
-      
-      
-      
     })
   }
 }
@@ -55,8 +48,6 @@ var signOut = function(){
     console.log("Sign out done");
   });
 }
-
-
 
 var signUp = function(req,res){
   if(req.body.name != "" && req.body.firstname != "" && req.body.mail != "" && req.body.password != ""){
@@ -91,10 +82,7 @@ var signUp = function(req,res){
         }
 
         client.close();
-      });
-
- 
-      
+      });      
     });
   }
 }
@@ -126,8 +114,6 @@ var signUp = function(req,res){
 
     console.log(tab);
    
-    
-
     client.close(); 
   });
 }
@@ -162,32 +148,14 @@ var addOutcome = function(req,res,callback){
             if(err) throw err;
           });
           client.close();
-          // resolve("Success");
         })
       });
 
       promise.then(() =>{
         callback(err);
       });
-
-      // collection.updateOne(query,update,function(err){
-      //   if(err) throw err;
-      //   console.log("doc updated");
-      //   return success = "Success"
-      // }).then( (success) =>{
-      //   collection.findOne(queryFind,function(err,doc){
-      //     if(err) throw err;
-      //     fs.writeFileSync('./user.json', JSON.stringify(doc), function(err){
-      //       if(err) throw err;
-      //     });
-      //     collection.close();
-      //     callback(err);
-      //   })
-      // })
     });
   }
-
-
 }
 
 exports.login = login;

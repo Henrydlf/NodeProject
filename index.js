@@ -57,6 +57,7 @@ app.get('/UserPage/:name', function (req, res) {
     console.log(content);
     res.render('pages/UserPage.ejs', { content: content });
 });
+
 app.get('/', function (req, res) { bdd.signOut(); res.render('pages/HomePage.ejs'); });
 app.get('/AddOutcome', function (req, res) { return res.render('pages/AddOutcome.ejs'); });
 app.post('/AddOutcome', function (req, res) {
