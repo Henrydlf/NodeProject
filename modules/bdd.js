@@ -1,15 +1,12 @@
 var MongoClient = require("mongodb").MongoClient;
 var fs = require('fs');
 
-var login = function(req, res,callback){
-  if(req.body.username != "" && req.body.password!= ""){
-    MongoClient.connect('mongodb://localhost',{useUnifiedTopology: true}, (err,client)=>{
-      if(err) throw err;
-
-      const db = client.db('bank');
-      const collection = db.collection('customers');
-      
-    
+var login = function(usr,password){
+  MongoClient.connect('mongodb://localhost',{useUnifiedTopology: true}, (err,client)=>{
+    if(err){
+      console.err(err);
+      return
+    }
 
       collection.find().each(function(err,doc){
         if(err) throw err;
@@ -101,8 +98,16 @@ var signUp = function(req,res){
     collection.find().each(function(err,doc){
       if(err) throw err;
       if(doc!=null){
+<<<<<<< HEAD
         tab.push(doc);  
       }
+=======
+          if(doc.prenom == usr && doc.mdp == password){
+            LoggedIn = true;
+            console.log("LoggedIn: "+LoggedIn);
+          } 
+      } 
+>>>>>>> V1L
     })
     
     var i = collection.countDocuments();
@@ -116,6 +121,7 @@ var signUp = function(req,res){
    
     client.close(); 
   });
+<<<<<<< HEAD
 }
 
 
@@ -163,3 +169,8 @@ exports.signUp = signUp;
 exports.displayDatabase = displayDatabase;
 exports.signOut = signOut;
 exports.addOutcome = addOutcome;
+=======
+}
+
+exports.login = login;
+>>>>>>> V1L
