@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <%- include ('../partials/head.ejs') %>
+  </head>
+  <body class="container">
+    <h1>Delete an Outcome</h1>
+    <form name="outcome" action="/DeleteOutcome" method="post">
+        <select name=date size="1">
+            <% content.depense.forEach(element => { %>
+                <option><%= element.date %></option>
+            <% }) %>)
+        </select>
+
+    
+        <input type="submit" >
+    </form>
+  </body>
+
+</html>
