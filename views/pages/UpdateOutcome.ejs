@@ -4,11 +4,14 @@
       <%- include ('../partials/head.ejs') %>
   </head>
   <body class="container">
-    <h1>Add an Outcome</h1>
-    <form name="outcome" action="/AddOutcome" method="post">
-        <label for="date">Date: </label>
-        <input type="number" placeholder="YYYY" min="1990" max="2100" name="date" id="date" autofocus/>
-        <br/><br/>
+    <h1>Update an Outcome</h1>
+    <form name="outcome" action="/UpdateOutcome" method="post">
+        <select name=date id="date" size="1">
+            <% content.depense.forEach(element => { %>
+                <option ><%= element.date %></option>
+            <% }) %>)
+        </select>
+
         <label for="amount">Amount: </label>
         <input type="text" name="amount" id="amount" />
         <br/><br/>

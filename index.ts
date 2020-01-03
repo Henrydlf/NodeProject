@@ -68,7 +68,7 @@ app.get(
   function(req, res) {
     var data = fs.readFileSync('./user.json');
     var content = JSON.parse(data);
-    console.log(content);
+    
     
     res.render('pages/UserPage.ejs', {content: content});
   }
@@ -88,11 +88,73 @@ app.get(
 app.post(
   '/AddOutcome',
   function(req,res){
-    bdd.addOutcome(req,res,function(err){
+
+    if(req.body.date == "" || req.body.amount == ""){
+      res.redirect('/AddOutcome');
+    }else{
+      bdd.addOutcome(req,res,function(err,data){
+        if(err) throw err;
+
+        if(data==1){
+          var data = fs.readFileSync('./user.json');
+          var content = JSON.parse(data);
+          res.redirect('/UserPage/' + content.nom );
+        }else{
+          res.redirect('/AddOutcome');
+        }
+        
+      });
+    }
+    
+  }
+)
+
+app.get(
+  '/UpdateOutcome',
+  function(req,res){
+    var data = fs.readFileSync('./user.json');
+    var content = JSON.parse(data);
+
+    res.render('pages/UpdateOutcome.ejs', {content : content});
+  }
+)
+
+app.post(
+  '/UpdateOutcome',
+  function(req,res){
+    if(req.body.amount == ""){
+      res.redirect('/UpdateOutcome');
+    }else{
+      bdd.updateOutcome(req,res,function(err){
+        if(err) throw err;
+        var data = fs.readFileSync('./user.json');
+        var content = JSON.parse(data);
+        res.redirect('/UserPage/' + content.nom );
+      });
+    }
+      
+    }
+  
+)
+
+app.get(
+  '/DeleteOutcome',
+  function(req,res){
+    var data = fs.readFileSync('./user.json');
+    var content = JSON.parse(data);
+
+    res.render('pages/DeleteOutcome.ejs', {content : content});
+  }
+)
+
+app.post(
+  '/DeleteOutcome',
+  function(req,res){
+    bdd.deleteOutcome(req,res,function(err){
       if(err) throw err;
       var data = fs.readFileSync('./user.json');
       var content = JSON.parse(data);
-      res.redirect('/UserPage/' + content.prenom );
+      res.redirect('/UserPage/' + content.nom );
     });
   }
 )
